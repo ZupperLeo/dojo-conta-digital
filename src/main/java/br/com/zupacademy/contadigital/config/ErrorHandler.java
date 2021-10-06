@@ -1,11 +1,16 @@
 package br.com.zupacademy.contadigital.config;
 
+import br.com.zupacademy.contadigital.controller.exceptions.ClienteNaoFoiEncontradoException;
+import br.com.zupacademy.contadigital.controller.exceptions.ContaNaoEncontradaException;
+import br.com.zupacademy.contadigital.model.exceptions.ValorSaqueMaiorQueSaldoException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
@@ -32,6 +37,24 @@ public class ErrorHandler {
         });
 
         return ResponseEntity.badRequest().body(listaErro);
+    }
+
+    @ExceptionHandler(ClienteNaoFoiEncontradoException.class)
+    @ResponseStatus( HttpStatus.NOT_FOUND )
+    ErrorDTO clienteNaoEncontrado( final ClienteNaoFoiEncontradoException exception ){
+        return new ErrorDTO( "id", exception.getMessage() );
+    }
+
+    @ExceptionHandler(ContaNaoEncontradaException.class)
+    @ResponseStatus( HttpStatus.NOT_FOUND )
+    ErrorDTO contaNaoEncontrado( final ContaNaoEncontradaException exception ){
+        return new ErrorDTO( "numConta", exception.getMessage() );
+    }
+
+    @ExceptionHandler(ValorSaqueMaiorQueSaldoException.class)
+    @ResponseStatus( HttpStatus.NOT_FOUND )
+    ErrorDTO ValorSaqueMaiorQueSaldoException( final ValorSaqueMaiorQueSaldoException exception ){
+        return new ErrorDTO( "valorSaque", exception.getMessage() );
     }
 
 }

@@ -1,9 +1,10 @@
 package br.com.zupacademy.contadigital.model;
 
+import br.com.zupacademy.contadigital.model.exceptions.ValorSaqueMaiorQueSaldoException;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
@@ -42,5 +43,13 @@ public class Conta {
         if (valor.compareTo(BigDecimal.ZERO) > 0) {
             this.saldo = this.saldo.add(valor);
         }
+    }
+
+    public void sacar(final BigDecimal valorSaque) {
+        if( valorSaque.compareTo(saldo) > 0 )
+            throw new ValorSaqueMaiorQueSaldoException(
+                    String.format("Valor { %s } maior que saldo { %s }", valorSaque, saldo)
+            );
+        saldo = saldo.subtract( valorSaque );
     }
 }
