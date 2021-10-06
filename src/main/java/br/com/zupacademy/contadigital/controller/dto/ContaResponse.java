@@ -5,18 +5,18 @@ import br.com.zupacademy.contadigital.model.Conta;
 public class ContaResponse {
 
     private String numero;
-    private ClienteDTO clienteDTO;
+    private ClienteDTO cliente;
 
     public ContaResponse(Conta conta) {
         this.numero = conta.getNumConta();
-        this.clienteDTO = new ClienteDTO(conta.getCliente());
+        this.cliente = new ClienteDTO(conta.getCliente());
     }
 
     public String getNumero() {
         return numero;
     }
 
-    public ClienteDTO getClienteDTO() {
-        return clienteDTO;
+    public ClienteDTO getCliente() {
+        return cliente;
     }
 }

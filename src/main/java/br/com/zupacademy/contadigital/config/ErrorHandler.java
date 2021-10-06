@@ -42,7 +42,7 @@ public class ErrorHandler {
     @ExceptionHandler(ClienteNaoFoiEncontradoException.class)
     @ResponseStatus( HttpStatus.NOT_FOUND )
     ErrorDTO clienteNaoEncontrado( final ClienteNaoFoiEncontradoException exception ){
-        return new ErrorDTO( "id", exception.getMessage() );
+        return new ErrorDTO( "idCliente", exception.getMessage() );
     }
 
     @ExceptionHandler(ContaNaoEncontradaException.class)
@@ -52,7 +52,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(ValorSaqueMaiorQueSaldoException.class)
-    @ResponseStatus( HttpStatus.NOT_FOUND )
+    @ResponseStatus( HttpStatus.UNPROCESSABLE_ENTITY )
     ErrorDTO ValorSaqueMaiorQueSaldoException( final ValorSaqueMaiorQueSaldoException exception ){
         return new ErrorDTO( "valorSaque", exception.getMessage() );
     }

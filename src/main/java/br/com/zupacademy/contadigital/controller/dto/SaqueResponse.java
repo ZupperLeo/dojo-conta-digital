@@ -14,7 +14,7 @@ public class SaqueResponse {
         return conta.getNumConta();
     }
 
-    public ClienteDTO getClienteDTO() {
+    public ClienteDTO getCliente() {
         return new ClienteDTO( conta.getCliente() );
     }
 
