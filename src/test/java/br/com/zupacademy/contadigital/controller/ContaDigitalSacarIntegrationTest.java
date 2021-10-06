@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -82,6 +81,18 @@ public class ContaDigitalSacarIntegrationTest {
                 .andExpect( MockMvcResultMatchers.content().contentType( MediaType.APPLICATION_JSON ) )
                 .andExpect( MockMvcResultMatchers.jsonPath("$.field").value("valorSaque") )
                 .andExpect( MockMvcResultMatchers.jsonPath("$.message").value("Valor { 600 } maior que saldo { 400.00 }") );
+    }
+
+    @Test
+    @DisplayName("Valor saque nulo")
+    void valorSaqueNulo() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post(ENDPOINT)
+                                .contentType( MediaType.APPLICATION_JSON )
+                                .content("{ \"idCliente\": \"1\", \"numConta\": \"11111111111\" }")
+                ).andDo( MockMvcResultHandlers.print() )
+                .andExpect( MockMvcResultMatchers.status().isBadRequest() );
     }
 
 }
